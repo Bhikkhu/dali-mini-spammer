@@ -1,9 +1,12 @@
 from bot import click_if_exists, found
-from pyautogui import hotkey, click, moveTo
+from pyautogui import hotkey, click, moveTo, press
 from pyperclip import copy
 from time import sleep, time
 import os
 from random import random
+from PIL import ImageGrab
+import subprocess
+
 
 print (os.getcwd())
 
@@ -45,7 +48,7 @@ while time() < end:
     hotkey("enter")
     # enter the query
     copy(query)
-    sleep(4)
+    sleep(3)
     moveTo(782, 410)
     click()
     '''
@@ -66,27 +69,25 @@ while found("minimized_container.png"):
     pass
 
 count = 0
+# copy(f"{query}_{round(random() * pow(10, 10))}")
 for i in range(tabs):
     for index, coordinates in enumerate(picture_locations):
         x, y = coordinates
         moveTo(x, y)
         sleep(0.1)
         click(button = 'right')
-        sleep(2)
-        click_if_exists("save_image_as.png")
-        sleep(2)
-        copy(f"{query}_{round(random() * pow(10, 10))}")
-        hotkey("ctrl", "v")
-        sleep(0.1)
-        click_if_exists("file_bar.png", double = True)
-        sleep(1)
-        copy(save_location)
-        hotkey("ctrl", "v")
-        hotkey("enter")
-        sleep(1)
-        hotkey("alt", "s")
+        sleep(0.5)
+        for i in range(3):
+            press("down")
+        press("enter")
+        image = ImageGrab.grabclipboard()
+        image.save(f"image_library\\{query}\\{query} {round(random() * pow(10, 10))}.png", "PNG")
         count += 1
     sleep(0.5)
     hotkey("ctrl", "tab")
 sleep(0.5)
 hotkey("ctrl", "shift", "tab")
+for i in range(tabs):
+    hotkey("ctrl", "w")
+    sleep(0.2)
+subprocess.Popen(r'explorer /select,"{1}\image_library\{0}"'.format(query, os.getcwd()))
