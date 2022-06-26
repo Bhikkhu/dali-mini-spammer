@@ -35,6 +35,12 @@ tabs = 0
 if not os.path.exists(f"image_library\\{query}"):
     os.makedirs(f"image_library\\{query}")
 
+if not os.path.exists(f"image_library\\{query}\\best"):
+    os.makedirs(f"image_library\\{query}\\best")
+
+if not os.path.exists(f"image_library\\{query}\\worst"):
+    os.makedirs(f"image_library\\{query}\\worst")
+
 save_location = os.getcwd() + f"\\image_library\\{query}"
 
 while time() < end:
