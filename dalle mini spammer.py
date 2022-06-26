@@ -70,21 +70,32 @@ while found("minimized_container.png"):
 
 count = 0
 # copy(f"{query}_{round(random() * pow(10, 10))}")
+
 for i in range(tabs):
-    for index, coordinates in enumerate(picture_locations):
-        x, y = coordinates
-        moveTo(x, y)
-        sleep(0.1)
-        click(button = 'right')
+    if not found("too_much_traffic.png"):
+        while found("minimized_container.png"):
+            pass
+        for index, coordinates in enumerate(picture_locations):
+            x, y = coordinates
+            moveTo(x, y)
+            sleep(0.1)
+            click(button = 'right')
+            sleep(0.5)
+            for i in range(3):
+                press("down")
+            press("enter")
+            grabbed_image = False
+            while not grabbed_image:
+                try:
+                    image = ImageGrab.grabclipboard()
+                    image.save(f"image_library\\{query}\\{query} {round(random() * pow(10, 10))}.png", "PNG")
+                    grabbed_image = True
+                except OSError:
+                    print("Couldn't grab the image, trying again...")
+                    sleep(0.5)
+            count += 1
         sleep(0.5)
-        for i in range(3):
-            press("down")
-        press("enter")
-        image = ImageGrab.grabclipboard()
-        image.save(f"image_library\\{query}\\{query} {round(random() * pow(10, 10))}.png", "PNG")
-        count += 1
-    sleep(0.5)
-    hotkey("ctrl", "tab")
+        hotkey("ctrl", "tab")
 sleep(0.5)
 hotkey("ctrl", "shift", "tab")
 for i in range(tabs):
