@@ -32,14 +32,12 @@ end = time() + time_to_spend * 60
 url = 'https://huggingface.co/spaces/dalle-mini/dalle-mini'
 tabs = 0
 
-if not os.path.exists(f"image_library\\{query}"):
-    os.makedirs(f"image_library\\{query}")
+folder_locations = [f"{query}", f"{query}\\best", f"{query}\\worst", f"{query}\\best\\cream_of_the_crop",
+                    f"{query}\\best\\participation_prize"]
 
-if not os.path.exists(f"image_library\\{query}\\best"):
-    os.makedirs(f"image_library\\{query}\\best")
-
-if not os.path.exists(f"image_library\\{query}\\worst"):
-    os.makedirs(f"image_library\\{query}\\worst")
+for folder_location in folder_locations:
+    if not os.path.exists(f"image_library\\{folder_location}"):
+        os.makedirs(f"image_library\\{folder_location}")
 
 save_location = os.getcwd() + f"\\image_library\\{query}"
 
@@ -86,18 +84,24 @@ for i in range(tabs):
             moveTo(x, y)
             sleep(0.1)
             click(button = 'right')
-            sleep(0.5)
+            sleep(0.3)
             for i in range(3):
                 press("down")
             press("enter")
             grabbed_image = False
             while not grabbed_image:
                 try:
+                    sleep(0.5)
                     image = ImageGrab.grabclipboard()
                     image.save(f"image_library\\{query}\\{query} {round(random() * pow(10, 10))}.png", "PNG")
                     grabbed_image = True
-                except OSError:
-                    print("Couldn't grab the image, trying again...")
+                except OSError as e:
+                    print("Couldn't grab the image, trying again:", e)
+                    click(button = 'right')
+                    sleep(0.5)
+                    for i in range(3):
+                        press("down")
+                    press("enter")
                     sleep(0.5)
             count += 1
         sleep(0.5)
