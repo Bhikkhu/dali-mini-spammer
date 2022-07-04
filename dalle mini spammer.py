@@ -6,7 +6,7 @@ import os
 from random import random
 from PIL import ImageGrab
 import subprocess
-
+import webbrowser
 
 print (os.getcwd())
 
@@ -44,7 +44,7 @@ def main ():
 
     while time() < end:
         # open the site
-        click_if_exists("luigi_chrome.png")
+        webbrowser.open('')
         hotkey("ctrl", "t")
         tabs += 1
         sleep(1)
@@ -54,7 +54,7 @@ def main ():
         # enter the query
         copy(query)
         sleep(3)
-        moveTo(782, 410)
+        moveTo(782, 390)
         click()
         '''
         while not click_if_exists("search_bar.png"):
@@ -63,7 +63,7 @@ def main ():
         '''
         sleep(1)
         hotkey("ctrl", "v")
-        moveTo(1321, 420)
+        moveTo(1321, 390)
         click()
     print("done with main part")
     sleep(1)
@@ -91,7 +91,7 @@ def main ():
                 grabbed_image = False
                 while not grabbed_image:
                     try:
-                        sleep(0.2)
+                        sleep(0.5)
                         image = ImageGrab.grabclipboard()
                         image.save(f"image_library\\{query}\\{query} {round(random() * pow(10, 10))}.png", "PNG")
                         grabbed_image = True
